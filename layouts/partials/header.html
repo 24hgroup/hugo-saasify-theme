@@ -6,14 +6,11 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
             <nav class="flex items-center justify-between h-20">
                 <!-- Logo and Title -->
-                <a href="{{ "/" | relLangURL }}" class="flex items-center space-x-4">
+                <a href="{{ "/" | relLangURL }}" class="flex items-center space-x-3 group">
                     {{ with $headerConfig.logo }}
-                        <img src="{{ .src | relURL }}" alt="{{ $.Site.Title }}" class="{{ with .class }}{{ . }}{{ else }}h-12{{ end }}">
+                        <img src="{{ .src | relURL }}" alt="Flive" class="{{ with .class }}{{ . }}{{ else }}h-10 md:h-12 w-auto object-contain transition-transform group-hover:scale-105 duration-200{{ end }}">
                     {{ else }}
-                        <span class="text-3xl font-bold text-gray-900">{{ .Site.Title }}</span>
-                    {{ end }}
-                    {{ if .Site.Title }}
-                        <span class="text-3xl font-semibold text-gray-800">{{ .Site.Title }}</span>
+                        <span class="text-2xl font-extrabold bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">Flive</span>
                     {{ end }}
                 </a>
 
@@ -47,16 +44,21 @@
 
                 <!-- CTA Buttons -->
                 {{ if not $headerConfig.hideButtons }}
-                <div class="hidden xl:flex items-center space-x-4">
-                    {{ with $headerConfig.buttons.signIn }}
-                    <a href="{{ .url | default "#" }}" class="{{ with .class }}{{ . }}{{ else }}inline-flex items-center justify-center px-6 py-3 rounded-lg font-bold transition duration-200 ease-in-out border-2 border-gray-200 hover:border-primary-600 hover:text-primary-600{{ end }}">
-                        {{ .text | default "Sign in" }}
+                <div class="hidden xl:flex items-center space-x-3">
+                    {{ with .Site.Params.social.zalo }}
+                    <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-full font-semibold text-sm transition duration-200 ease-in-out border border-gray-200 text-gray-700 hover:border-[#efb300] hover:text-gray-900 hover:bg-amber-50/50 shadow-xs">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                        </span>
+                        <span>Hotline: 0823.439.725</span>
                     </a>
                     {{ end }}
                     
                     {{ with $headerConfig.buttons.getStarted }}
-                    <a href="{{ .url | default "#" }}" class="{{ with .class }}{{ . }}{{ else }}inline-flex items-center justify-center px-6 py-3 rounded-lg font-bold transition duration-200 ease-in-out bg-primary-600 text-white hover:bg-primary-700 hover:scale-105{{ end }}">
-                        {{ .text | default "Get Started" }}
+                    <a href="{{ .url | default "https://play.google.com/store/apps/details?id=com.flv.flive" }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-200 ease-in-out bg-[#efb300] hover:bg-[#d9a200] text-gray-950 shadow-sm hover:shadow-md hover:scale-[1.03] active:scale-[0.98]">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        <span>Tải ứng dụng</span>
                     </a>
                     {{ end }}
                 </div>
@@ -108,18 +110,14 @@
                 {{ end }}
 
                 {{ if not $headerConfig.hideButtons }}
-                <div class="pt-4 space-y-4">
-                    {{ with $headerConfig.buttons.signIn }}
-                    <a href="{{ .url | default "#" }}" class="{{ with .mobileClass }}{{ . }}{{ else }}block text-center px-6 py-3 rounded-lg font-bold transition duration-200 ease-in-out border-2 border-gray-200 hover:border-primary-600 hover:text-primary-600{{ end }}">
-                        {{ .text | default "Sign in" }}
+                <div class="pt-4 space-y-3">
+                    <a href="https://zalo.me/+84823439725" target="_blank" rel="noopener noreferrer" class="block text-center py-3 px-5 rounded-full font-bold transition duration-200 border-2 border-gray-300 text-gray-800 hover:border-[#efb300]">
+                        Hotline/Zalo: 0823.439.725
                     </a>
-                    {{ end }}
                     
-                    {{ with $headerConfig.buttons.getStarted }}
-                    <a href="{{ .url | default "#" }}" class="{{ with .mobileClass }}{{ . }}{{ else }}block text-center px-6 py-3 rounded-lg font-bold transition duration-200 ease-in-out bg-primary-600 text-white hover:bg-primary-700 hover:scale-105{{ end }}">
-                        {{ .text | default "Get Started" }}
+                    <a href="https://play.google.com/store/apps/details?id=com.flv.flive" target="_blank" rel="noopener noreferrer" class="block text-center py-3 px-5 rounded-full font-bold transition duration-200 bg-[#efb300] hover:bg-[#d9a200] text-gray-950 shadow-md">
+                        Tải ứng dụng Flive
                     </a>
-                    {{ end }}
                 </div>
                 {{ end }}
             </div>

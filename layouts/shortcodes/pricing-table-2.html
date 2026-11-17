@@ -1,49 +1,64 @@
 {{ $data := .Inner | unmarshal }}
-<section class="bg-white">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+<section class="py-12 md:py-16 bg-slate-50/50">
+    <div class="container mx-auto px-4 max-w-7xl">
         {{ with $data.title }}
-        <div class="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
-            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900">{{ . }}</h2>
+        <div class="max-w-3xl mx-auto text-center mb-12 lg:mb-16">
+            <span class="inline-block px-3.5 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-bold uppercase tracking-wider mb-3">Bảng giá minh bạch</span>
+            <h2 class="text-3xl md:text-5xl font-black text-gray-900 tracking-tight mb-4">{{ . }}</h2>
             {{ with $data.description }}
-            <p class="mb-5 font-light text-gray-500 sm:text-xl">{{ . }}</p>
+            <p class="text-lg md:text-xl text-gray-600 leading-relaxed">{{ . }}</p>
             {{ end }}
         </div>
         {{ end }}
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
             {{ range $index, $plan := $data.plans }}
-            <div class="relative flex flex-col p-6 {{ if $plan.featured }}bg-primary-600 text-white{{ else }}bg-white{{ end }} rounded-2xl shadow-xl transform hover:-translate-y-1 transition duration-300">
+            {{ $btnUrl := $plan.button.url }}
+            {{ if eq $btnUrl "zalo_url" }}
+                {{ $btnUrl = "https://zalo.me/+84823439725" }}
+            {{ end }}
+            <div class="relative flex flex-col p-8 {{ if $plan.featured }}bg-gradient-to-b from-primary-600 to-indigo-700 text-white shadow-2xl shadow-primary-500/30 scale-105 z-10 border-2 border-primary-400{{ else }}bg-white text-gray-900 shadow-lg border border-gray-100 hover:shadow-xl{{ end }} rounded-3xl transition-all duration-300">
                 {{ if $plan.featured }}
                 <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span class="bg-yellow-400 text-gray-900 text-xs font-semibold px-4 py-1 rounded-full">{{ i18n "mostPopular" }}</span>
+                    <span class="bg-gradient-to-r from-amber-400 to-yellow-400 text-gray-950 text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider shadow-md">🔥 Gói Phổ Biến Nhất</span>
                 </div>
                 {{ end }}
                 
-                <div class="mb-4">
-                    <h3 class="text-2xl font-bold {{ if $plan.featured }}text-white{{ else }}text-gray-900{{ end }}">{{ $plan.name }}</h3>
-                    <p class="mt-2 {{ if not $plan.featured }}text-gray-500{{ end }}">{{ $plan.description }}</p>
-                </div>
-                
                 <div class="mb-6">
-                    <div class="flex items-baseline">
-                        <span class="text-4xl font-extrabold {{ if not $plan.featured }}text-gray-900{{ end }}">$</span>
-                        <span class="text-5xl font-extrabold tracking-tight {{ if not $plan.featured }}text-gray-900{{ end }}">{{ $plan.price }}</span>
-                        <span class="ml-1 {{ if not $plan.featured }}text-gray-500{{ end }}">{{ i18n "perMonth" }}</span>
-                    </div>
+                    <h3 class="text-2xl font-black tracking-tight {{ if $plan.featured }}text-white{{ else }}text-gray-900{{ end }}">{{ $plan.name }}</h3>
+                    <p class="mt-2 text-sm leading-relaxed {{ if $plan.featured }}text-primary-100{{ else }}text-gray-500{{ end }}">{{ $plan.description }}</p>
                 </div>
                 
-                <ul class="mb-8 space-y-4 flex-grow">
+                <div class="mb-8 pb-6 border-b {{ if $plan.featured }}border-primary-500/50{{ else }}border-gray-100{{ end }}">
+                    <div class="flex items-baseline gap-1">
+                        <span class="text-5xl font-black tracking-tight {{ if $plan.featured }}text-white{{ else }}text-gray-900{{ end }}">
+                            {{ if eq $plan.price "0" }}
+                                Miễn Phí
+                            {{ else }}
+                                {{ $plan.price }}
+                            {{ end }}
+                        </span>
+                        {{ if ne $plan.price "0" }}
+                        <span class="text-sm font-semibold {{ if $plan.featured }}text-primary-200{{ else }}text-gray-500{{ end }}">/tháng</span>
+                        {{ end }}
+                    </div>
+                    {{ if eq $plan.price "0" }}
+                    <span class="text-xs font-semibold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-full mt-1 inline-block">Trải nghiệm full 5 ngày</span>
+                    {{ end }}
+                </div>
+                
+                <ul class="mb-8 space-y-3.5 flex-grow text-sm">
                     {{ range $plan.features }}
-                    <li class="flex items-center">
-                        <svg class="w-5 h-5 {{ if $plan.featured }}text-white{{ else }}text-green-500{{ end }} mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <li class="flex items-start gap-3">
+                        <svg class="w-5 h-5 flex-shrink-0 {{ if $plan.featured }}text-amber-300{{ else }}text-emerald-500{{ end }}" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                         </svg>
-                        <span class="{{ if not $plan.featured }}text-gray-600{{ end }}">{{ . }}</span>
+                        <span class="{{ if $plan.featured }}text-white/95{{ else }}text-gray-700{{ end }}">{{ . }}</span>
                     </li>
                     {{ end }}
                 </ul>
                 
-                <a href="{{ $plan.button.url }}" class="text-center w-full px-5 py-3 rounded-lg {{ if $plan.featured }}bg-white text-primary-600 hover:bg-gray-100{{ else }}bg-primary-600 text-white hover:bg-primary-700{{ end }} font-medium transition duration-300">
+                <a href="{{ $btnUrl }}" target="_blank" rel="noopener noreferrer" class="text-center w-full py-3.5 px-6 rounded-full font-bold text-sm transition-all duration-200 {{ if $plan.featured }}bg-white text-primary-700 hover:bg-amber-300 hover:text-gray-950 shadow-lg hover:shadow-xl hover:scale-105{{ else }}bg-primary-600 text-white hover:bg-primary-700 shadow-md hover:shadow-lg hover:scale-105{{ end }}">
                     {{ $plan.button.text }}
                 </a>
             </div>
